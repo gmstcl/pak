@@ -1,0 +1,60 @@
+```sh
+https://is.itnsa.cloud/share/3AXY6jNe
+gmstskill
+
+[ip address]
+PC 1 - 192.168.0.1
+PC 2 - 192.168.1.1
+(서브넷을 나누기 위함)
+
+[switch]
+enable
+conf t
+vlan 10 *vlan 생성
+name vlan10
+do show vlan
+exit
+vlan 20
+name vlan20
+do show vlan
+exit
+interface fa0/1
+switchport mode access
+switchport access vlan 10
+exit
+interface fa0/2
+switchport mode access
+switchport access vlan 20
+exit *나가기
+do show vlan *확인
++ no vlan *vlan 삭제
+
+[gateway]
+PC 1 - 192.168.0.254
+PC 2 - 192.168.1.254
+
+[router]
+no
+enable
+conf t
+interface gig0/0/0
+no shutdown
+exit
+interface gig0/0/0.10
+encapsulation dot1Q 10
+ip address 192.168.1.254 255.255.255.0
+exit
+interface gig0/0/0.20
+encapsulation dot1Q 20
+ip address 192.168.1.154 255.255.255.0
+exit
+do show ip interface br
+(yes yes yes yes yes up up up up up up이면 ok)
+
+[switch]
+(자동 로그아웃(보안))
+enable
+conf t
+interface f0/3
+switchport mode trunk
+```
